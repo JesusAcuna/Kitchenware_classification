@@ -1,0 +1,5 @@
+flask
+tflite-runtime
+pillow
+waitress
+numpy
