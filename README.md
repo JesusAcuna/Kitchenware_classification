@@ -249,7 +249,9 @@ Steps:
     <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/local_app.png">
   </p>
   
-  4. This is the <b>frontend</b> of the application, you can check ``
+  4. This is the <b>frontend</b> of the application, I based myself on Sachin Pal's code to make the frontend, you can chek it out here:
+
+ > https://github.com/Sachin-crypto/Flask_Image_Recognition
   
   <p align="center">
     <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/frontend_app.png">
@@ -293,7 +295,11 @@ change two things in `Dockerfile`:
   
     docker images
     
-  5. Run the docker entering this command:
+  5. (Optional) You can check the files that are in created docker running this command:
+
+    docker exec -it kitchenware_classification bash
+    
+  6. Run the docker entering this command:
   
   > Windows
   
@@ -303,6 +309,10 @@ change two things in `Dockerfile`:
   
     docker run -it --rm -p 9696:9696 kitchenware_classification:latest
 
+  <p align="center">
+    <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/docker.png">
+  </p>
+  
 ## 9. Google Cloud deployment (GCP)
 
 Steps:
