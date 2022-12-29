@@ -44,7 +44,7 @@ The repository contains the next files and folders:
 - `model.py`: python script to enter image, do normalization and prediction <b>BACKEND</b>
 - `requirements.txt`: file with dependencies and libraries
 - `train.py`: python script to tune parameters and train a best model, from this script you get the directory `Kitchenware_data` and the file `best_model.h5`
-- `Kitchenware_Classificaion.ipynb`: python notebook where the analysis and modeling is done
+- `Kitchenware_Classification.ipynb`: python notebook where the analysis and modeling is done
 
 ## 1. Description of the problem
 
