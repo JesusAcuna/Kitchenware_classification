@@ -53,7 +53,7 @@ This project is part of the 'Kitchenware Classification' competition from Kaggle
 > https://www.kaggle.com/competitions/kitchenware-classification
 
 <p align="justify">
-With the increase of data, advanced algorithms and computational power, many computer vision applications have emerged to make decisios for us with a high precision. Convolutional Neuronal Networks is an algorithm of computer vision, which take images as inputs and passes them through convolutional and dense layers to classify objects, so based on this brief introduction the problem in this case is to classify objects among 6 categories such as :
+With the increase of data, advanced algorithms and computational power, many computer vision applications have emerged to make decisions for us with a high precision. Convolutional Neuronal Networks is an algorithm of computer vision, which take images as inputs and passes them through convolutional and dense layers to classify objects, so based on this brief introduction, the problem in this case is to classify objects among 6 categories such as :
 </p>
 
 - cups
@@ -137,13 +137,13 @@ For this project I used these libraries:
 ## 5. Importing data
 
 <p align="justify">
-We can download the data from the web : https://www.kaggle.com/competitions/kitchenware-classification/data, this data contains a directory named `images` with all the training and testing images, two csv files, which contain the ids for training and testing images, and a csv file for a submission example.
+We can download the data from the web : https://www.kaggle.com/competitions/kitchenware-classification/data, this URL contains a directory called `images` with all the images for training and testing, two csv files `train.csv` and `test.csv`, which contain the 'ids' of the images for training and testing respectively , and a csv file `sample_submission.csv` for submission.
 </p>
 
-Another way to download the data is using the APi of Kaggle, this API allows us to download the data and makes submissions from scripts.
+Another way to download the data is using the APi of Kaggle, this API allows us to download the data and makes submission of our trained model.
 Follow the next steps to use the API:
 
-1.First, login to your kaggle account and got to 'Account' settings
+1.First, login to your Kaggle account and go to 'Account' settings
 
 2.Second, click on 'Create New API Token' button to generate a `kaggle.json` file
 
@@ -156,7 +156,7 @@ Follow the next steps to use the API:
     # Install Kaggle
     !pip install -q kaggle
     
-If you are using google colab type this:
+If you are using google colab type this to upload the `kaggle.json` file:
 
     # Import Kaggle.json file
     import os 
@@ -166,26 +166,28 @@ If you are using google colab type this:
 
 If you are using another python IDE, just copy the `kaggle.json` file in your environment.
     
-4.Create the kaggle folder, copy the `kaggle.json` inside the folder, and give it permissions
+4.Create a kaggle folder, copy the `kaggle.json` inside the folder, and give it permissions
 
     # Create a Kaggle folder
     import os
     if not os.path.exists(os.path.expanduser('~/.kaggle')):
       os.mkdir(os.path.expanduser('~/.kaggle'))
       #!mkdir '~/.kaggle'
+      
     # Copy the Kaggle.json to folder created
     !cp kaggle.json ~/.kaggle
+    
     # Permissions
     !chmod 600 ~/.kaggle/kaggle.json
 
 ## 6. Notebook
 
-Data preparation, data cleaning, EDA, feature importance analysis, model selection and parameter tuning was performed in `Date_Fruit_Classification.ipynb`
+Exploratory data analysis(EDA), model selection and parameter tuning was performed in `Kitchenware_Classificaion.ipynb`
 
 ### 6.1. Exploratory Data Analysis (EDA)
 
 <p align="justify"> 
-From the image below, we can see that there are over 1100 images where the target variable is 'cup' or 'plate'. Both classes along with 'spoon' are the three largest classes, on the other hand 'glass','knife', and 'fork' have images lower than 900. Also, we notice that 'fork' class has about 600 images, this could generate problems to generalize this class later.
+From the image below, we can see that there are over 1100 images where the target variable is 'cup' or 'plate'. Both classes along with 'spoon' are the three largest classes, on the other hand 'glass','knife', and 'fork' have images lower than 900. Also, we notice that 'fork' class has about 600 images, this could generate problems to generalize this class later, but for the moment I'm not going to duplicate images from this class, instead of it I will use data augmentation.
 </p>
 
 <p align="center">
@@ -195,9 +197,11 @@ From the image below, we can see that there are over 1100 images where the targe
 ### 6.2. Model selection and parameter tuning
 
 <p align="justify"> 
-For model selection, I decided to choose a convolutional neuronal network tuned with Optuna library, for more information about optuna library you can check it out for more examples with keras in https://github.com/optuna/optuna-examples/tree/main/keras 
+For model selection, I decided to choose a convolutional neuronal network, to do this I used a trained model, which is 'Xception' with 'imagenet' weights, with 299x299 pixel images and I just taken the convolutional part, then for for the multilayer part, I used Optuna library, which was used for tunning parameters for the last part of this architecture.
 
-According to the notebook `Kitchen_Classification.ipynb` the steps to obtain the best model are the following:
+For more information about optuna library you can check it out for more examples with keras in https://github.com/optuna/optuna-examples/tree/main/keras 
+
+According to the notebook `Kitchenware_Classificaion.ipynb` the steps to obtain the best model are the following:
   
   1. The function `Making_Directory` creates a directory `Kitchenware_data`, which contains two subdirectories: `Full_Train` and `Test` for training and testing respectively and other two subdirectories with lower images : `Train` and `Val` for doing a quick fit.
   2. The function `MakeTrial` creates a trial with optuna library and based on the parameter ranges of my model, optuna evaluates the best accuracy result of my model according to these parameters.
@@ -205,7 +209,7 @@ According to the notebook `Kitchen_Classification.ipynb` the steps to obtain the
   4. The function `MakeCNN` creates a bigger model in epochs of the best model obtained, this is to see if the best model went into overfitting.
 </p>
 
-The results of the best model with an accuracy is `0.9703237414360046`, and the architecture of this model is:
+The results of the best model after 20 epochs, with an accuracy of `0.9703237414360046`.
 - Number of hidden layers : 1
 - Layer 1 number of neurons: 480 
 - Layer 1 activation function: relu
@@ -215,13 +219,14 @@ The results of the best model with an accuracy is `0.9703237414360046`, and the 
 - Random state: 563
 
 
-Model Architecture: 
+<b> Model Architecture: </b>
+
 <p align="center">
   <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/model_architecture.png">
 </p>
 
-</p>
-Model History: 
+<b> Model History: </b>
+
 <p align="center">
   <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/model_history.png">
 </p>
@@ -229,19 +234,22 @@ Model History:
 ## 7. Instructions on how to run the project
 
 Steps:
-
-  1. Run the file `train.py`, this file will allow you to obtain a best model, but I recommend you not to run it because to obtain the `best_model.h5` file it took me 5 hours to train it. You can check the logs from the fit inside the file `Kitchenware_classification.ipynb` to see how it was fitted. This model was trained for 5 hours, for that I used a virtual machine on Google CLoud with these features: a v8CPU with a NVIDIA V100.
-   The output of `train.py` are  the directory `Kitchenware_data` and the `best_nodel.h5`, which contains all the parameters of the best model I trained. I'll put them inside the repository to be able to do the next step.
    
-  2. Run the file `converter_to_tflite.py` to convert the model `best_model.h5` to `best_model.tflite`, since the tensorFlow library is big and we need to use a tensorFlow lite library, which is a lighter library to predict. The file is already uploaded, so you don't need to do this step.
+  1. Do this part 4. [Setting up the virtual environment](#4-setting-up-the-virtual-environment), which is for setting up the environment.
+   
+  2. (Optional) Run the file `train.py`, this file will allow you to obtain a best model, it's configured to do a search for best parameters for 5 hours and a training with larger epochs. You can check the logs from the fit inside the file `Kitchenware_Classificaion.ipynb` to see how it was fitted. For that parameters tunning I used a virtual machine on Google Cloud with these features: a v8CPU and a NVIDIA V100. The output of `train.py` are  the directory `Kitchenware_data` and the `best_nodel.h5`, which contains all the parameters of the best model I trained. I'll   put them inside the repository to be able to do the next step.
+   
+  3. (Optional) Run the file `converter_to_tflite.py` to convert the model `best_model.h5` to `best_model.tflite`, since the tensorFlow library is big and we need to use a tensorFlow lite library, which is a lighter library to predict. The file is already uploaded, so you don't need to do this step.
     
-  3. Run the file `app.py` to run the web service locally.
+  4. Run the file `app.py` to run the web service locally.
   
+    winpty python app.py
+
   <p align="center">
     <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/local_app.png">
   </p>
   
-  4. This is the frontend of the application
+  4. This is the <b>frontend</b> of the application, you can check ``
   
   <p align="center">
     <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/frontend_app.png">
@@ -360,5 +368,32 @@ Steps:
   12. All the previous steps can be done within the interface offered by GCP
   
 ## 10. References
+
+
+ Google cloud reference documentation
+ 
+ https://cloud.google.com/sdk/gcloud/reference
+    
+ Docker run reference
+ 
+ https://docs.docker.com/engine/reference/run/
+    
+ Flask micro web framework
+ 
+ https://flask.palletsprojects.com/en/2.2.x/
+ 
+ Flask Image Recognition
+ 
+ https://github.com/Sachin-crypto/Flask_Image_Recognition
+ 
+ Dataset Kaggle
+ 
+ https://www.kaggle.com/competitions/kitchenware-classification/data
+ 
+ Optuna library
+ 
+ https://optuna.readthedocs.io/en/stable/index.html
+ 
+ 
 
 
