@@ -239,9 +239,19 @@ Steps:
     <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/frontend_app.png">
   </p>
   
-  5. You can make predictions choosing files and 
+  5. You can make predictions choosing a kitchenware image
+
+  <p align="center">
+    <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/choose-image.png">
+  </p>
   
-  
+  6. And press the button submit to predict
+
+  <p align="center">
+    <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/prediction-image.png">
+  </p>
+
+
   
   4. Run the file `predict_test.py` to make a request to the web service, this file has an example labeled with class 'DOKOL'
   
