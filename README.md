@@ -196,6 +196,7 @@ According to the notebook `Kitchen_Classification.ipynb` the steps to obtain the
   2. The function `MakeTrial` creates a trial with optuna library and based on the parameter ranges of my model, optuna evaluates the best accuracy result of my model according to these parameters.
   3. The function `Study_Statistics` shows the parameters of the best model such as number of hidden layers, activation function, learning rate, and so on.
   4. The function `MakeCNN` creates a bigger model in epochs of the best model obtained, this is to see if the best model went into overfitting.
+</p>
 
 The results of the best model with an accuracy is `0.9703237414360046`, and the architecture of this model is:
 - Number of hidden layers : 1
@@ -206,7 +207,7 @@ The results of the best model with an accuracy is `0.9703237414360046`, and the 
 - Momentum: 0.8281463565323526
 - Random state: 563
 
-</p>
+
 Model Architecture: 
 <p align="center">
   <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/model_architecture.png">
@@ -221,8 +222,8 @@ Model History:
 ## 7. Instructions on how to run the project
 
 Steps:
+
   1. Run the file `train.py`, this file will allow you to obtain a best model, but I recommend you not to run it because to obtain the `best_model.h5` file it took me 5 hours to train it. You can check the logs from the fit inside the file `Kitchenware_classification.ipynb` to see how it was fitted. This model was trained for 5 hours, for that I used a virtual machine on Google CLoud with these features: a v8CPU with a NVIDIA V100.
-  
    The output of `train.py` are  the directory `Kitchenware_data` and the `best_nodel.h5`, which contains all the parameters of the best model I trained. I'll put them inside the repository to be able to do the next step.
    
   2. Run the file `converter_to_tflite.py` to convert the model `best_model.h5` to `best_model.tflite`, since the tensorFlow library is big and we need to use a tensorFlow lite library, which is a lighter library to predict. The file is already uploaded, so you don't need to do this step.
@@ -250,5 +251,107 @@ Steps:
   <p align="center">
     <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/prediction-image.png">
   </p>
+
+## 8. Locally deployment 
+
+Dockerfile contains all the specifications to build a container: python version, virtual environment, dependencies, scripts ,files, and so on. To do the cloud deployment we first need to configure locally and conteinerize it with Docker
+
+Steps:
+
+  1. Install docker: https://www.docker.com/, and if you're using WSL2 for running Linux as subsytem on Windows activate WSL Integration in Settings/Resources/WSL Integration.
+  2. Open the console and locate in the repository where is the `Dockerfile` , if your using Windows there won't be any problem, but if you're using Linux
+change two things in `Dockerfile`:
+
+> first after the line `RUN pip install -r requirements.txt`:
+
+     RUN pip install gunicorn  
+  
+> and second, change the entrypoint for this:
+    
+    ENTRYPOINT ["gunicorn","--bind=0.0.0.0:9696","app:app"]
+  
+  3. Build the docker and enter this command:
+
+    docker build -t kitchenware_classification .
+  
+  4. Once you build the container you can chek all the images you created running this command:  
+  
+    docker images
+    
+  5. Run the docker entering this command:
+  
+  > Windows
+  
+    winpty docker run -it --rm -p 9696:9696 kitchenware_classification:latest
+
+  > Linux
+  
+    docker run -it --rm -p 9696:9696 kitchenware_classification:latest
+
+## 9. Google Cloud deployment (GCP)
+
+Steps:
+
+  1. Create a Google Cloud Platform (GCP) account https://cloud.google.com/
+  
+  2. Install the gcloud CLI, you can follow the instrucctions here https://cloud.google.com/sdk/docs/install ,this is to be able to use gcloud console commands 
+  
+  3. Create a project:
+    
+    gcloud projects create date-fruit-classification 	
+
+  4. To see all the projects you've created run the following:
+  
+    gcloud projects list 
+    
+  5. To select a project:
+  
+    gcloud config set project date-fruit-classification
+    
+    # To see what is the active project 
+    gcloud config list project
+    
+  6. Create a tag to the image
+  
+    docker tag date_fruit_classification:latest gcr.io/date-fruit-classification/date-fruit-image:latest
+    
+  7. Activate Google Container Registry API 
+
+    gcloud services enable containerregistry.googleapis.com
+    
+  8. To configure docker authentication run, this is for the next step : 
+  
+    gcloud auth configure-docker
+
+  9. Push the  image to Google Container Registry 
+  
+    docker push gcr.io/date-fruit-classification/date-fruit-image:latest
+    
+  <p align="center">
+    <img src="https://github.com/JesusAcuna/Date_Fruit_Classification_Keras/blob/main/images/container_registry.png">
+   </p>    
+   
+  10. Deploy the image
+   
+    gcloud run deploy date-fruit-image --image gcr.io/date-fruit-classification/date-fruit-image:latest --port 9696 --max-instances 15 --platform managed --region us-central1 --allow-unauthenticated --memory 1Gi
+    
+  <p align="center">
+    <img src="https://github.com/JesusAcuna/Date_Fruit_Classification_Keras/blob/main/images/google_cloud.png">
+   </p>
+    
+  For more information on how to deploy : https://cloud.google.com/sdk/gcloud/reference/run/deploy
+  
+    #To delete a service
+    gcloud run services delete date-fruit-image --region us-central1
+
+  11. The web service was available on https://date-fruit-image-zpte776wvq-uc.a.run.app/predict, and the request I made with `predict_test_cloud.py` is in the image below, but if you do a deployment replace the URL they give you in `predict_test_cloud.py`.
+
+  <p align="center">
+    <img src="https://github.com/JesusAcuna/Date_Fruit_Classification_Keras/blob/main/images/predict_cloud.png">
+  </p>
+  
+  12. All the previous steps can be done within the interface offered by GCP
+  
+## 10. References
 
 
