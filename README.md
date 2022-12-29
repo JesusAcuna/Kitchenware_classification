@@ -371,11 +371,14 @@ Steps:
 
   11. The web service was available on https://kitchenware-classification-oezkcy27ia-uc.a.run.app, I'll make a video how it works.
   
-  https://youtu.be/5vU0v8hfCIY
   
   [![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/5vU0v8hfCIY)
 
   
+
+  https://user-images.githubusercontent.com/57125377/209990738-7818f06f-085a-4d6e-a7fe-d9e1a5c5eb40.mp4
+
+
   12. All the previous steps can be done within the interface offered by GCP
   
 ## 10. References
