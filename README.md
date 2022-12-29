@@ -160,7 +160,7 @@ If you are using google colab type this:
 
 If you are using another python IDE, just copy the `kaggle.json` file in your environment.
     
-4. Create the kaggle folder, copy the `kaggle.json` inside the folder, and give it permissions
+4.Create the kaggle folder, copy the `kaggle.json` inside the folder, and give it permissions
 
     # Create a Kaggle folder
     import os
