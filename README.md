@@ -179,7 +179,7 @@ Data preparation, data cleaning, EDA, feature importance analysis, model selecti
 ### 6.1. Exploratory Data Analysis (EDA)
 
 <p align="justify"> 
-From the image below, we can see that there are about 200 examples where the target variable is 'DOKOL' or 'SAFAVI'. Both classes along with 'ROTANA' are the three largest classes, on the other hand 'BERHI','DEGLET','IRAQI' and 'SOGAY' have examples lower than 100. Also, I did some analysis on some features like area distribution and I found out that three classes had almost the same distribution range, and could be replaced by one, you can analyze all the features if you would like, but the idea is the same.
+From the image below, we can see that there are over 1100 images where the target variable is 'cup' or 'plate'. Both classes along with 'spoon' are the three largest classes, on the other hand 'glass','knife', and 'fork' have images lower than 900. Also, we notice that 'fork' class has about 600 images, this could generate problems to generalize this class later.
 </p>
 
 <p align="center">
@@ -189,34 +189,65 @@ From the image below, we can see that there are about 200 examples where the tar
 ### 6.2. Model selection and parameter tuning
 
 <p align="justify"> 
-For model selection, I decided to choose a deep learning model tuned with Optuna library, for more information about optuna library you can check it out for more examples with keras in https://github.com/optuna/optuna-examples/tree/main/keras 
+For model selection, I decided to choose a convolutional neuronal network tuned with Optuna library, for more information about optuna library you can check it out for more examples with keras in https://github.com/optuna/optuna-examples/tree/main/keras 
 
-According to the notebook `Date_Fruit_Classification.ipynb` the steps to obtain the best model are the following:
-
-  1. The function `MakeTrial` creates a trial with optuna library and based on the parameter ranges of my model, optuna evaluates the best accuracy result of my model according to these parameters.
-  2. The function `Study_Statistics` shows the parameters of the best model such as number of hidden layers, activation function, learning rate, and so on.
-  3. The function `MakeNeuralNetwork` creates a bigger model in epochs of the best model obtained, this is to see if the best model went into overfitting.
-  4. The function `N_Models` puts all the previous steps together and creates a number of best models, this was done since optuna trial starts randomly and I wanted to have several models to analyze instead of one.
-  5. The final step is the stability test, in that part I tested the stability of four models, giving them as input different test sets of different sizes.
+According to the notebook `Kitchen_Classification.ipynb` the steps to obtain the best model are the following:
   
-The results show that in front of 150 different test sets the best model is the third one with a best accuracy value of `0.9333`, and the architecture of this model is:
-- Number of hidden layers :2 
-- Layer 1 number of neurons: 352
-- Layer 1 activation function: elu
+  1. The function `Making_Directory` creates a directory `Kitchenware_data`, which contains two subdirectories: `Full_Train` and `Test` for training and testing respectively and other two subdirectories with lower images : `Train` and `Val` for doing a quick fit.
+  2. The function `MakeTrial` creates a trial with optuna library and based on the parameter ranges of my model, optuna evaluates the best accuracy result of my model according to these parameters.
+  3. The function `Study_Statistics` shows the parameters of the best model such as number of hidden layers, activation function, learning rate, and so on.
+  4. The function `MakeCNN` creates a bigger model in epochs of the best model obtained, this is to see if the best model went into overfitting.
+
+The results of the best model with an accuracy is `0.9703237414360046`, and the architecture of this model is:
+- Number of hidden layers : 1
+- Layer 1 number of neurons: 480 
+- Layer 1 activation function: relu
 - Layer 1 dropout: 0.0
-- Layer 2 number of neurons: 96
-- Layer 2 activation function: selu
-- Layer 2 dropout: 0.02
-- Learning rate: 0.001760
-- beta_1: 0.075162
-- beta_2: 0.093541
-- epsilon: 7.775386e-07
+- Learning rate: 0.007164294777909971
+- Momentum: 0.8281463565323526
+- Random state: 563
 
 </p>
-Model 3 Architecture: 
+Model Architecture: 
 <p align="center">
-  <img src="https://github.com/JesusAcuna/Date_Fruit_Classification_Keras/blob/main/images/model_3_architecture.png">
+  <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/model_architecture.png">
+</p>
+
+</p>
+Model History: 
+<p align="center">
+  <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/model_history.png">
 </p>
 
 
+## 7. Instructions on how to run the project
 
+Steps:
+  1. Run the file `train.py`, this  python file is modified, so that it doesn't take you a long time to train the models, with these parameters:
+  
+    - Number of models set to 2, line 390
+    - Number of trials set to 1, line 391
+    - Number of epochs set to 40, line 164
+    - Number of epochs multiplier set to 2, linde 267
+  
+   The file `Date_Fruit_Classification.ipynb` was trained for 2 hours, for that I used a virtual machine on https://saturncloud.io/ with these parameters:
+    
+    - Number of models set to 4
+    - Timeout of each model set to 1800 seconds
+    - The range of epochs set to [300,350,400,450,500]
+    - Number of epochs multiplier set to 6
+  
+   The output of `Date_Fruit_Classification.ipynb` are  the file `std_scaler.bin` and the directories `4_Models_000123`, `Date_Fruit_Datasets`, `150_Stability_045011`.
+   
+   Inside `4_Models_000123` is the Model_3 directory with the file `Best_Model_3.h5`, which contains all the parameters of the best model I trained. I will put    it inside the repository to be able to do the next step.
+   
+  2. Run the file `converter_to_tflite.py` to convert the model `Best_Model_3.h5` to `Best_Model_3.tflite`, since the tensorFlow library is big and we need to use a tensorFlow lite library, which is a lighter library to predict. The file is already uploaded, so you don't need to do this step.
+    
+  3. Run the file `predict.py` to run the web service locally. 
+  
+  4. Run the file `predict_test.py` to make a request to the web service, this file has an example labeled with class 'DOKOL'
+  
+  This is the result of the request: 
+  
+    {'BERHI': 5.466628351197495e-16, 'DEGLET': 3.063003077841131e-06, 'DOKOL': 0.9999969005584717, 'IRAQI': 3.4314470696553474e-25, 'ROTANA':    1.4219495495647376e-22, 'SAFAVI': 1.904230234707733e-23, 'SOGAY': 1.1417237294475413e-10}
+  
