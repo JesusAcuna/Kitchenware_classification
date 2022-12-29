@@ -323,7 +323,7 @@ Steps:
   
   3. Create a project:
     
-    gcloud projects create date-fruit-classification 	
+    gcloud projects create Kitchenware-classification
 
   4. To see all the projects you've created run the following:
   
@@ -331,14 +331,14 @@ Steps:
     
   5. To select a project:
   
-    gcloud config set project date-fruit-classification
+    gcloud config set project Kitchenware-classification
     
     # To see what is the active project 
     gcloud config list project
     
   6. Create a tag to the image
   
-    docker tag date_fruit_classification:latest gcr.io/date-fruit-classification/date-fruit-image:latest
+    docker tag kitchenware_classification:latest gcr.io/kitchenware-classification/kitchenware-classification:latest
     
   7. Activate Google Container Registry API 
 
@@ -348,32 +348,28 @@ Steps:
   
     gcloud auth configure-docker
 
-  9. Push the  image to Google Container Registry 
+  9. Push the  image to Container Registry 
   
-    docker push gcr.io/date-fruit-classification/date-fruit-image:latest
+    docker push gcr.io/kitchenware-classification/kitchenware-classification:latest
     
   <p align="center">
-    <img src="https://github.com/JesusAcuna/Date_Fruit_Classification_Keras/blob/main/images/container_registry.png">
+    <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/container_registry.png">
    </p>    
    
   10. Deploy the image
    
-    gcloud run deploy date-fruit-image --image gcr.io/date-fruit-classification/date-fruit-image:latest --port 9696 --max-instances 15 --platform managed --region us-central1 --allow-unauthenticated --memory 1Gi
+    gcloud run deploy kitchenware-classification --image gcr.io/kitchenware-classification/kitchenware-classification:latest --port 9696 --max-instances 15 --platform managed --region us-central1 --allow-unauthenticated --memory 1Gi
     
   <p align="center">
-    <img src="https://github.com/JesusAcuna/Date_Fruit_Classification_Keras/blob/main/images/google_cloud.png">
+    <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/google_cloud.png">
    </p>
     
   For more information on how to deploy : https://cloud.google.com/sdk/gcloud/reference/run/deploy
   
     #To delete a service
-    gcloud run services delete date-fruit-image --region us-central1
+    gcloud run services delete kitchenware-classification --region us-central1
 
-  11. The web service was available on https://date-fruit-image-zpte776wvq-uc.a.run.app/predict, and the request I made with `predict_test_cloud.py` is in the image below, but if you do a deployment replace the URL they give you in `predict_test_cloud.py`.
-
-  <p align="center">
-    <img src="https://github.com/JesusAcuna/Date_Fruit_Classification_Keras/blob/main/images/predict_cloud.png">
-  </p>
+  11. The web service was available on https://kitchenware-classification-oezkcy27ia-uc.a.run.app, I'll make a video how it works.
   
   12. All the previous steps can be done within the interface offered by GCP
   
