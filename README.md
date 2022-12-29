@@ -56,7 +56,6 @@ With the increase of data, advanced algorithms and computational power, many com
 - forks
 - knives
 
-
 ## 2. Objective
 
 <p align="justify">
@@ -219,31 +218,30 @@ Model History:
   <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/model_history.png">
 </p>
 
-
 ## 7. Instructions on how to run the project
 
 Steps:
-  1. Run the file `train.py`, this  python file is modified, so that it doesn't take you a long time to train the models, with these parameters:
+  1. Run the file `train.py`, this file will allow you to obtain a best model, but I recommend you not to run it because to obtain the `best_model.h5` file it took me 5 hours to train it. You can check the logs from the fit inside the file `Kitchenware_classification.ipynb` to see how it was fitted. This model was trained for 5 hours, for that I used a virtual machine on Google CLoud with these features: a v8CPU with a NVIDIA V100.
   
-    - Number of models set to 2, line 390
-    - Number of trials set to 1, line 391
-    - Number of epochs set to 40, line 164
-    - Number of epochs multiplier set to 2, linde 267
-  
-   The file `Date_Fruit_Classification.ipynb` was trained for 2 hours, for that I used a virtual machine on https://saturncloud.io/ with these parameters:
-    
-    - Number of models set to 4
-    - Timeout of each model set to 1800 seconds
-    - The range of epochs set to [300,350,400,450,500]
-    - Number of epochs multiplier set to 6
-  
-   The output of `Date_Fruit_Classification.ipynb` are  the file `std_scaler.bin` and the directories `4_Models_000123`, `Date_Fruit_Datasets`, `150_Stability_045011`.
+   The output of `train.py` are  the directory `Kitchenware_data` and the `best_nodel.h5`, which contains all the parameters of the best model I trained. I'll put them inside the repository to be able to do the next step.
    
-   Inside `4_Models_000123` is the Model_3 directory with the file `Best_Model_3.h5`, which contains all the parameters of the best model I trained. I will put    it inside the repository to be able to do the next step.
-   
-  2. Run the file `converter_to_tflite.py` to convert the model `Best_Model_3.h5` to `Best_Model_3.tflite`, since the tensorFlow library is big and we need to use a tensorFlow lite library, which is a lighter library to predict. The file is already uploaded, so you don't need to do this step.
+  2. Run the file `converter_to_tflite.py` to convert the model `best_model.h5` to `best_model.tflite`, since the tensorFlow library is big and we need to use a tensorFlow lite library, which is a lighter library to predict. The file is already uploaded, so you don't need to do this step.
     
-  3. Run the file `predict.py` to run the web service locally. 
+  3. Run the file `app.py` to run the web service locally.
+  
+  <p align="center">
+    <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/local_app.png">
+  </p>
+  
+  4. This is the frontend of the application
+  
+  <p align="center">
+    <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/frontend_app.png">
+  </p>
+  
+  5. You can make predictions choosing files and 
+  
+  
   
   4. Run the file `predict_test.py` to make a request to the web service, this file has an example labeled with class 'DOKOL'
   
