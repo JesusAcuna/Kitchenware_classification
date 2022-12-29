@@ -24,20 +24,27 @@
 
 The repository contains the next files and folders:
 
-- `150_Stability_045011`: directory of the stability with different test sizes of the 4 trained models 
-- `4_Models_000123`: directory of models history and parameters
-- `Date_Fruit_Datasets`: directory of the data set
-- `images`: directory with images to README.md
-- `Best_Model_3.h5`: archive of best chosen model 
-- `Best_Model_3.tflite`: archive with extension tensorflow lite of best chosen model
-- `Date_Fruit_Classification.ipynb`: python notebook where the analysis and modeling is done
+- `Kitchenware_data`: directory with 4 subdirectories: 
+    - `Full_train`: Image training set
+    - `Test`      : Image testing set
+    
+    By modifying the train size of `Full_train`, you can get a small set for a fast training 
+    
+    - `Train`     : Small image training set from `Full_train`
+    - `Val`       : Small image testing set from `Full_train`
+- `data`: directory of image dataset
+- `images`: directory of images to README.md
+- `static`: directory of css, js files and images for frontend 
+- `templates`: directory of html files for frontend 
 - `Dockerfile`: archive to containerize the project
-- `convert_to_tflite.py`: python script to convert a h5 file to tfile file
-- `predict.py`: python script to make the web service with method 'POST' and upload the parameters of `Best_Model_3.tflite`
-- `predict_test.py`: python script to make a request locally
-- `requirements.txt`: archive with the dependencies and libraries
-- `train.py`: python script to train the model and get `150_Stability_045011`,`4_Models_000123`,`Date_Fruit_Datasets` and `std_scaler.bin`
-
+- `app.py`: python script to make the web service for classification with `Flask`  <b>FRONTEND</b>
+- `best_model.h5`: file of best chosen model 
+- `best_model.tflite`: file with extension tensorflow lite of best chosen model
+- `convert_to_tflite.py`: python script to convert a 'h5' file to 'tfile' file
+- `model.py`: python script to enter image, do normalization and prediction <b>BACKEND</b>
+- `requirements.txt`: file with dependencies and libraries
+- `train.py`: python script to tune parameters and train a best model, from this script you get the directory `Kitchenware_data` and the file `best_model.h5`
+- `Kitchenware_Classificaion.ipynb`: python notebook where the analysis and modeling is done
 
 ## 1. Description of the problem
 
