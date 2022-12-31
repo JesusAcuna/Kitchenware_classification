@@ -323,7 +323,7 @@ change two things in `Dockerfile`:
 
   > Linux
   
-    docker run -it --rm -p 9696:9696 kitchenware_classification:9.0
+    docker run --rm -it -p 9696:9696 kitchenware_classification:9.0
 
   <p align="center">
     <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/docker.png">
