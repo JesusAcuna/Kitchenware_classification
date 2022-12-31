@@ -287,7 +287,7 @@ change two things in `Dockerfile`:
     
     ENTRYPOINT ["gunicorn","--bind=0.0.0.0:9696","app:app"]
   
-  3. Build the docker and enter this command:
+  3. Build the docker and enter this command below, docker build: converts your Dockerfile into an image
 
     docker build -t kitchenware_classification .
   
