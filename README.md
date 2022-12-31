@@ -271,7 +271,21 @@ Steps:
 
 ## 8. Locally deployment 
 
-Dockerfile contains all the specifications to build a container: python version, virtual environment, dependencies, scripts ,files, and so on. To do the cloud deployment we first need to configure locally and conteinerize it with Docker
+Dockerfile contains all the specifications to build a container: python version, virtual environment, dependencies, scripts ,files, and so on. To do the cloud deployment we first need to configure locally and conteinerize it with Docker.
+
+Some concepts of Docker:
+
+  - docker build, converts your Dockerfile into an image.
+  - docker create, your-image creates a container from your image from step 1.
+  - docker start container_id, starts the container from step 2.
+  - docker run image, is a shortcut for 2. and 3. (docker create image and docker start container_id).
+  - Here is the difference between image and container:
+
+<b>Image</b> <p align="justify"> An image is a specified snapshot of your filesystem and includes the starting command of your container. An image occupies just disk-space, it does not occupy memory/cpu. To create an image you usually create instructions how to build that image in aDockerfile. FROM and RUN commands in the docker file create the file-snapshot. One may build an image from a docker file with docker build <dockerfile> </p>
+
+<b>Container</b> <p align="justify"> You can create new containers with an image. Each container has a file-snapshot which is based on the file-snapshot created by the image. If you start a container it will run the command you specified in your docker file CMD and will use part of your memory and cpu. You can start or stop a container. If you create a container, its not started by default. This means you can't communicate to the container via ports etc. You have to start it first. One may create an container from an image by docker create <image>. When a container has been created it shows the id in the terminal. One may start it with docker start <container_id>.</p>
+  
+Source: https://stackoverflow.com/questions/37513511/whats-the-difference-between-the-docker-commands-run-build-and-create
 
 Steps:
 
@@ -305,7 +319,7 @@ change two things in `Dockerfile`:
   
   > Windows
   
-    winpty docker run -it --rm -p 9696:9696 kitchenware_classification:9.0
+    winpty docker run --rm -it -p 9696:9696 kitchenware_classification:9.0
 
   > Linux
   
