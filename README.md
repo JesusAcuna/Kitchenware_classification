@@ -289,25 +289,27 @@ change two things in `Dockerfile`:
   
   3. Build the docker and enter this command below, docker build: converts your Dockerfile into an image
 
-    docker build -t kitchenware_classification .
+    docker build -t kitchenware_classification:9.0 .
   
   4. Once you build the container you can chek all the images you created running this command:  
   
     docker images
     
-  5. (Optional) You can check the files that are in created docker running this command:
+  5. (Optional) To run a disposable new container, you can simply attach a tty and standard input:
 
-    docker exec -it kitchenware_classification bash
+   docker run --rm -it --entrypoint bash <repository:tag or image id>
+    
+    docker run --rm -it --entrypoint bash kitchenware_classification:9.0
     
   6. Run the docker entering this command:
   
   > Windows
   
-    winpty docker run -it --rm -p 9696:9696 kitchenware_classification:latest
+    winpty docker run -it --rm -p 9696:9696 kitchenware_classification:9.0
 
   > Linux
   
-    docker run -it --rm -p 9696:9696 kitchenware_classification:latest
+    docker run -it --rm -p 9696:9696 kitchenware_classification:9.0
 
   <p align="center">
     <img src="https://github.com/JesusAcuna/Kitchenware_classification/blob/master/images/docker.png">
