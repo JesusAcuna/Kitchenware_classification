@@ -340,7 +340,7 @@ Steps:
     
   6. Create a tag to the image
   
-    docker tag kitchenware_classification:latest gcr.io/kitchenware-classification/kitchenware-classification:latest
+    docker tag kitchenware_classification:9.0 gcr.io/kitchenware-classification/kitchenware-classification:latest
     
   7. Activate Google Container Registry API 
 
